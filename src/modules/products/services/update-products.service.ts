@@ -3,7 +3,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Product } from '@prisma/client';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { ProductsRepository } from '../repositories/products.repository';
 
@@ -19,7 +18,7 @@ export default class UpdateProductService {
   async execute(
     { productId, userId }: IRequest,
     { name, quantity, value }: UpdateProductDto,
-  ): Promise<Product> {
+  ) {
     const product = await this.productRepository.findById(productId);
 
     if (!product) {

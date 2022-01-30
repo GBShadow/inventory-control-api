@@ -3,7 +3,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Product } from '@prisma/client';
 import { ProductsRepository } from '../repositories/products.repository';
 
 type IRequest = {
@@ -15,7 +14,7 @@ type IRequest = {
 export default class ShowProductsService {
   constructor(private productRepository: ProductsRepository) {}
 
-  async execute({ productId, userId }: IRequest): Promise<Product | undefined> {
+  async execute({ productId, userId }: IRequest) {
     const product = await this.productRepository.findById(productId);
 
     if (!product) {

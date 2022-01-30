@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateSessionDto } from './dto/create-session.dto';
 import { compareSync } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UsersRepository } from '../users/repositories/users.repository';
+import { CreateSessionDto } from '../dto/create-session.dto';
+import { UsersRepository } from '../../users/repositories/users.repository';
 
 @Injectable()
 export class SessionsService {

@@ -15,6 +15,7 @@ import { BadRequestSwagger } from 'src/shared/helpers/swagger/bad-request.swagge
 import { ErrorRequestSwagger } from 'src/shared/helpers/swagger/error-request.swagger';
 import CreateProductsService from '../services/create-products.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Controller('products')
 @ApiTags('products')
@@ -48,6 +49,11 @@ export default class CreateProductsController {
   async create(@Body() createProductDto: CreateProductDto) {
     const product = await this.createProductsService.execute(createProductDto);
 
-    return product;
+    const productSerialized = {
+      ...product,
+      user: new UserEntity(product.user),
+    };
+
+    return productSerialized;
   }
 }

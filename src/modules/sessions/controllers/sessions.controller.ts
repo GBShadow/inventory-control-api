@@ -1,9 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BadRequestSwagger } from 'src/shared/helpers/swagger/bad-request.swagger';
-import { CreateSessionDto } from './dto/create-session.dto';
-import { SessionsService } from './sessions.service';
-import { CreateSessionSwagger } from './swagger/create-session-swagger';
+import { CreateSessionDto } from '../dto/create-session.dto';
+import { SessionsService } from '../services/sessions.service';
+import { CreateSessionSwagger } from '../swagger/create-session-swagger';
 
 @Controller('sessions')
 @ApiTags('sessions')

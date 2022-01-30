@@ -19,6 +19,7 @@ import { BadRequestSwagger } from 'src/shared/helpers/swagger/bad-request.swagge
 import { ErrorRequestSwagger } from 'src/shared/helpers/swagger/error-request.swagger';
 import UpdateProductsService from '../services/update-products.service';
 import UserRequest from 'src/@types/user-request';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Controller('products')
 @ApiTags('products')
@@ -72,6 +73,11 @@ export default class UpdateProductsController {
       updateProductDto,
     );
 
-    return product;
+    const productSerialized = {
+      ...product,
+      user: new UserEntity(product.user),
+    };
+
+    return productSerialized;
   }
 }

@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ShowProductSwagger } from '../swagger/show-product-swagger';
 import { UnauthorizedRequestSwagger } from 'src/shared/helpers/swagger/unauthorized-request.swagger';
@@ -18,6 +17,7 @@ import { BadRequestSwagger } from 'src/shared/helpers/swagger/bad-request.swagge
 import { ErrorRequestSwagger } from 'src/shared/helpers/swagger/error-request.swagger';
 import ShowProductsService from '../services/show-products.service';
 import UserRequest from 'src/@types/user-request';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Controller('products')
 @ApiTags('products')
@@ -62,6 +62,11 @@ export default class ShowProductsController {
       userId: req.user.id,
     });
 
-    return product;
+    const productSerialized = {
+      ...product,
+      user: new UserEntity(product.user),
+    };
+
+    return productSerialized;
   }
 }

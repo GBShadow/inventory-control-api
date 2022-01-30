@@ -3,7 +3,6 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Product } from '@prisma/client';
 import { UsersRepository } from 'src/modules/users/repositories/users.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductsRepository } from '../repositories/products.repository';
@@ -15,12 +14,7 @@ export default class CreateProductService {
     private readonly userRepository: UsersRepository,
   ) {}
 
-  async execute({
-    name,
-    quantity,
-    value,
-    userId,
-  }: CreateProductDto): Promise<Product> {
+  async execute({ name, quantity, value, userId }: CreateProductDto) {
     const userExist = await this.userRepository.findById(userId);
 
     if (!userExist) {

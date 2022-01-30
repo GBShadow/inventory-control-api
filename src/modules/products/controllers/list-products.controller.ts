@@ -15,7 +15,6 @@ import { ErrorRequestSwagger } from 'src/shared/helpers/swagger/error-request.sw
 import ListProductsService from '../services/list-products.service';
 import UserRequest from 'src/@types/user-request';
 import { ProductEntity } from '../entities/products.entity';
-import { Product } from '@prisma/client';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Controller('products')
