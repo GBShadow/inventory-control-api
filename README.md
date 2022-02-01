@@ -49,3 +49,8 @@ npm run start
 ```
 
 Para executar a API na porta 3333.
+
+Usuário ADM
+
+ADM_USERNAME=sistematxai
+ADM_PASSWORD=123456789
