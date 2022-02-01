@@ -15,7 +15,8 @@ model User {
   email     String    @unique
   password  String
   name      String
-  phone     String
+  surname   String
+  roles     Role[]    @relation("_UserRole")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Product   Product[]
@@ -30,4 +31,13 @@ model Product {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String
+  users       User[]   @relation("_UserRole")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

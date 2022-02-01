@@ -5,6 +5,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CreateProductDto } from '../dto/create-product.dto';
 
@@ -16,6 +17,7 @@ import { ErrorRequestSwagger } from 'src/shared/helpers/swagger/error-request.sw
 import CreateProductsService from '../services/create-products.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
+import UserRequest from 'src/@types/user-request';
 
 @Controller('products')
 @ApiTags('products')
@@ -46,8 +48,14 @@ export default class CreateProductsController {
     description: 'Forbidden resource.',
     type: ErrorRequestSwagger,
   })
-  async create(@Body() createProductDto: CreateProductDto) {
-    const product = await this.createProductsService.execute(createProductDto);
+  async create(
+    @Body() createProductDto: CreateProductDto,
+    @Req() req: UserRequest,
+  ) {
+    const product = await this.createProductsService.execute({
+      ...createProductDto,
+      userId: Number(req.user.id),
+    });
 
     const productSerialized = {
       ...product,

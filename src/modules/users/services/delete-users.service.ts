@@ -5,7 +5,7 @@ import { UsersRepository } from '../repositories/users.repository';
 export default class DeleteUsersService {
   constructor(private userRepository: UsersRepository) {}
 
-  async execute(id: number): Promise<void> {
+  async execute(id: number) {
     const user = await this.userRepository.findById(id);
 
     if (!user) {

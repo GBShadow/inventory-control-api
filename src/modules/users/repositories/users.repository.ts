@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { PrismaService } from 'src/shared/database/prisma/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -8,36 +7,42 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 export class UsersRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create({ email, name, password, phone }: CreateUserDto): Promise<User> {
+  async create({ email, name, password, surname, rolesExists }: CreateUserDto) {
     const user = await this.prisma.user.create({
       data: {
         name,
         password,
         email,
-        phone,
+        surname,
+        roles: { connect: [...rolesExists] },
       },
+      include: { roles: true },
     });
 
     return user;
   }
 
-  async findAll(): Promise<User[] | []> {
-    const users = await this.prisma.user.findMany();
+  async findAll() {
+    const users = await this.prisma.user.findMany({
+      include: { roles: true },
+    });
 
     return users;
   }
 
-  async findById(id: number): Promise<User | undefined> {
+  async findById(id: number) {
     const user = await this.prisma.user.findUnique({
       where: { id },
+      include: { roles: true },
     });
 
     return user;
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string) {
     const user = await this.prisma.user.findUnique({
       where: { email },
+      include: { roles: true },
     });
 
     return user;
@@ -45,22 +50,27 @@ export class UsersRepository {
 
   async update(
     id: number,
-    { email, name, password, phone }: UpdateUserDto,
-  ): Promise<User> {
+    { email, name, password, surname, rolesExists }: UpdateUserDto,
+  ) {
     const userUpdated = await this.prisma.user.update({
       where: { id },
       data: {
         name,
         password,
         email,
-        phone,
+        surname,
+        roles: { set: [...rolesExists] },
       },
+      include: { roles: true },
     });
 
     return userUpdated;
   }
 
   async delete(id: number) {
-    return await this.prisma.user.delete({ where: { id } });
+    return await this.prisma.user.delete({
+      where: { id },
+      include: { roles: true },
+    });
   }
 }

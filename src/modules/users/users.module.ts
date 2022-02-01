@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma/prisma.service';
+import { RoleRepository } from '../roles/repositories/RoleRepository';
 import {
   CreateUsersController,
   DeleteUsersController,
@@ -25,6 +26,7 @@ import UpdateUsersService from './services/update-users.service';
     UpdateUsersController,
   ],
   providers: [
+    RoleRepository,
     UsersRepository,
     PrismaService,
     CreateUsersService,

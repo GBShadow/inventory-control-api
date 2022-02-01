@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { SessionsModule } from './modules/sessions/sessions.module';
 import { ProductsModule } from './modules/products/products.module';
+import { RolesModule } from './modules/roles/roles.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ProductsModule } from './modules/products/products.module';
       limit: 10,
     }),
     UsersModule,
+    RolesModule,
     SessionsModule,
     ProductsModule,
   ],

@@ -3,23 +3,32 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { compare, hash } from 'bcrypt';
+import { RoleRepository } from 'src/modules/roles/repositories/RoleRepository';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersRepository } from '../repositories/users.repository';
 
 @Injectable()
 export default class UpdateUsersService {
-  constructor(private userRepository: UsersRepository) {}
+  constructor(
+    private userRepository: UsersRepository,
+    private rolesRepository: RoleRepository,
+  ) {}
 
   async execute(
     id: number,
-    { email, name, old_password, password, phone }: UpdateUserDto,
-  ): Promise<User> {
+    { email, name, old_password, password, surname, roles }: UpdateUserDto,
+  ) {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
       throw new NotFoundException('User not found.');
+    }
+
+    const rolesExists = await this.rolesRepository.findAllByName(roles);
+
+    if (rolesExists.length === 0) {
+      throw new NotFoundException('Roles not found.');
     }
 
     if (old_password && password) {
@@ -35,7 +44,8 @@ export default class UpdateUsersService {
         name,
         password: passwordHash,
         email,
-        phone,
+        surname,
+        rolesExists,
       });
 
       return userUpdated;
@@ -44,7 +54,8 @@ export default class UpdateUsersService {
     const userUpdated = await this.userRepository.update(user.id, {
       name,
       email,
-      phone,
+      surname,
+      rolesExists,
     });
 
     return userUpdated;

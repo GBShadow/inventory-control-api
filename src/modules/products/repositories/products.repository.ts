@@ -30,6 +30,14 @@ export class ProductsRepository {
     return products;
   }
 
+  async findAll() {
+    const products = await this.prisma.product.findMany({
+      include: { user: true },
+    });
+
+    return products;
+  }
+
   async findById(id: number) {
     const product = await this.prisma.product.findUnique({
       where: { id },

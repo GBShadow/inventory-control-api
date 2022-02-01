@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { UsersRepository } from '../repositories/users.repository';
 
 @Injectable()
 export default class ShowUsersService {
   constructor(private userRepository: UsersRepository) {}
 
-  async execute(id: number): Promise<User | undefined> {
+  async execute(id: number) {
     const user = await this.userRepository.findById(id);
 
     if (!user) {

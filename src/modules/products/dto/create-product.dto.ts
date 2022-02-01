@@ -17,8 +17,5 @@ export class CreateProductDto {
   @ApiProperty()
   quantity: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @ApiProperty()
   userId: number;
 }
