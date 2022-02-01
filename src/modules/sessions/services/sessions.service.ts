@@ -11,8 +11,8 @@ export class SessionsService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async create({ email, password }: CreateSessionDto) {
-    const user = await this.usersRepository.findByEmail(email);
+  async create({ username, password }: CreateSessionDto) {
+    const user = await this.usersRepository.findByUsername(username);
 
     if (!user) {
       throw new UnauthorizedException('Incorrect e-mail/password combination');
@@ -27,7 +27,7 @@ export class SessionsService {
     const userSerialized = {
       id: user.id,
       name: user.name,
-      email: user.email,
+      username: user.username,
       roles: user.roles.map((role) => role.name),
     };
 

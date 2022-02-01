@@ -27,9 +27,9 @@ export class SessionsController {
     description: 'Incorrect e-mail/password combination.',
     type: CreateSessionSwagger,
   })
-  async create(@Body() { email, password }: CreateSessionDto) {
+  async create(@Body() { username, password }: CreateSessionDto) {
     const { user, token } = await this.sessionsService.create({
-      email,
+      username,
       password,
     });
 
