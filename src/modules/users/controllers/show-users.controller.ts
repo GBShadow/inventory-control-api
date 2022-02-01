@@ -6,11 +6,9 @@ import {
   ClassSerializerInterceptor,
   ParseIntPipe,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from '../entities/user.entity';
 import { ShowUserSwagger } from '../swagger/show-user-swagger';
@@ -53,7 +51,7 @@ export default class ShowUsersController {
     description: 'User not found.',
     type: ErrorRequestSwagger,
   })
-  async findOne(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     const user = await this.showUsersService.execute(id);
 
     return new UserEntity(user);

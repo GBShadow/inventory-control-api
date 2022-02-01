@@ -7,12 +7,18 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 export class UsersRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create({ email, name, password, surname, rolesExists }: CreateUserDto) {
+  async create({
+    username,
+    name,
+    password,
+    surname,
+    rolesExists,
+  }: CreateUserDto) {
     const user = await this.prisma.user.create({
       data: {
         name,
         password,
-        email,
+        username,
         surname,
         roles: { connect: [...rolesExists] },
       },
@@ -39,9 +45,9 @@ export class UsersRepository {
     return user;
   }
 
-  async findByEmail(email: string) {
+  async findByUsername(username: string) {
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: { username },
       include: { roles: true },
     });
 
@@ -50,14 +56,14 @@ export class UsersRepository {
 
   async update(
     id: number,
-    { email, name, password, surname, rolesExists }: UpdateUserDto,
+    { username, name, password, surname, rolesExists }: UpdateUserDto,
   ) {
     const userUpdated = await this.prisma.user.update({
       where: { id },
       data: {
         name,
         password,
-        email,
+        username,
         surname,
         roles: { set: [...rolesExists] },
       },

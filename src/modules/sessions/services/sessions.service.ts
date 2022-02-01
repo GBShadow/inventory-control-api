@@ -28,6 +28,7 @@ export class SessionsService {
       id: user.id,
       name: user.name,
       email: user.email,
+      roles: user.roles.map((role) => role.name),
     };
 
     return {

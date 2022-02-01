@@ -4,13 +4,13 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { SessionsService } from './services/sessions.service';
 import { SessionsController } from './controllers/sessions.controller';
-import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { UsersRepository } from '../users/repositories/users.repository';
+import { PrismaService } from 'src/shared/database/prisma/prisma.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    UsersModule,
     PassportModule,
     JwtModule.register({
       privateKey: process.env.JWT_SECRET_KEY,
@@ -18,6 +18,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
   ],
   controllers: [SessionsController],
-  providers: [SessionsService, JwtStrategy],
+  providers: [SessionsService, JwtStrategy, UsersRepository, PrismaService],
 })
 export class SessionsModule {}

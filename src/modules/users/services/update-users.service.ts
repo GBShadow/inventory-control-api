@@ -17,7 +17,7 @@ export default class UpdateUsersService {
 
   async execute(
     id: number,
-    { email, name, old_password, password, surname, roles }: UpdateUserDto,
+    { username, name, old_password, password, surname, roles }: UpdateUserDto,
   ) {
     const user = await this.userRepository.findById(id);
 
@@ -43,7 +43,7 @@ export default class UpdateUsersService {
       const userUpdated = await this.userRepository.update(user.id, {
         name,
         password: passwordHash,
-        email,
+        username,
         surname,
         rolesExists,
       });
@@ -53,7 +53,7 @@ export default class UpdateUsersService {
 
     const userUpdated = await this.userRepository.update(user.id, {
       name,
-      email,
+      username,
       surname,
       rolesExists,
     });

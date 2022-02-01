@@ -15,8 +15,8 @@ export default class CreateUsersService {
     private rolesRepository: RoleRepository,
   ) {}
 
-  async execute({ email, name, surname, password, roles }: CreateUserDto) {
-    const userAlreadyExist = await this.userRepository.findByEmail(email);
+  async execute({ username, name, surname, password, roles }: CreateUserDto) {
+    const userAlreadyExist = await this.userRepository.findByUsername(username);
 
     if (userAlreadyExist) {
       throw new BadRequestException('User already exist.');
@@ -33,7 +33,7 @@ export default class CreateUsersService {
     const user = await this.userRepository.create({
       name,
       password: passwordHash,
-      email,
+      username,
       surname,
       rolesExists,
     });
